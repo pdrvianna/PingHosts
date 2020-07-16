@@ -1,0 +1,14 @@
+
+
+Version:	3.12
+CmdLine:	Z:\ws_eclipse\BD_WEB\Ping\EXE\pingHosts.exe --l4j-debug
+WOW64:		yes
+Working dir:	Z:\ws_eclipse\BD_WEB\Ping\EXE\.
+Java min ver:	1.013.000
+Java max ver:	
+Bundled JRE:	C:\Program Files (x86)\Java\jre1.8.0_261
+Check launcher:	C:\Program Files (x86)\Java\jre1.8.0_261\bin\javaw.exe (OK)
+Launcher:	C:\Program Files (x86)\Java\jre1.8.0_261\bin\javaw.exe
+Launcher args:	-jar "Z:\ws_eclipse\BD_WEB\Ping\EXE\pingHosts.exe"
+Args length:	50/32768 chars
+Exit code:	0
