@@ -1,0 +1,2 @@
+java version 11.0.7 2020-04-14 not found
+java SE Runtime Enviroment 18.9 not found
