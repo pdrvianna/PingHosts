@@ -1,9 +1,9 @@
 Endereco ip;Status;ip
-192.168.0.1;alcançou;192.168.0.1
-127.0.0.1;alcançou;127.0.0.1
-23.216.189.228;alcançou;23.216.189.228
-www.globo.com;alcançou;186.192.81.5
-128.40.2.1;timeout;128.40.2.1:
-129.0.1.2;timeout;129.0.1.2:
-www.apple.com;alcançou;23.216.189.228
+192.168.0.1
+127.0.0.1
+23.216.189.228
+www.globo.com
+128.40.2.1
+129.0.1.2
+www.apple.com
 

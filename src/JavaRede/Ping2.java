@@ -7,7 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 public class Ping2 {
 	
@@ -15,7 +17,6 @@ public class Ping2 {
 	//String[] host = {"127.0.0.1","128.0.2.1","www.google.com","www.globo.com"};
 
 	//Recomendo no minimo 3 segundos
-	int timeOut = 3000;
 	//int port = 8080;
 	String str;
 	int i=0;
@@ -24,36 +25,40 @@ public class Ping2 {
 	String arqIpsOut = "outIps.txt";
 
 	try {	
-		int linhas=0;
+	//	int linhas=0;
 		BufferedReader ent = new BufferedReader(new FileReader(arqIps)); 
-		BufferedReader entc = new BufferedReader(new FileReader(arqIps)); 
+		//BufferedReader entc = new BufferedReader(new FileReader(arqIps)); 
 		
 		//Contagem de linhas para abrir o Array
-		while ((str = entc.readLine()) != null) {
-			linhas += 1;
-		}
+	//	while ((str = entc.readLine()) != null) {
+	//		linhas += 1;
+	//	}
 		
-		String lstIps[] = new String[linhas];	
+		//String lstIps[] = new String[linhas];	
+		ArrayList<String> lstIps = new ArrayList<String>();
+
 		//gravacao em Array
 		str = ent.readLine();
 		if (str != null) {
 			
 			do {
-				lstIps[i] = str;
+				lstIps.add(i,str);
 				//System.out.println("ip lido: "+str);
 				i++;
 						
 			}while((str = ent.readLine()) !=  null);
 		} else {
-			System.out.println("o arquivo ips.txt está vazio ou não existe!");
+			JOptionPane.showMessageDialog(null,"o arquivo ips.txt está vazio ou não existe!","Informacao",JOptionPane.INFORMATION_MESSAGE);
+			//System.out.println("o arquivo ips.txt está vazio ou não existe!");
 		}
 		ent.close();
 		
 		//Percorrengo o Array e testando cada ip
-		for(int cont=0; cont<lstIps.length-1;cont++) {
-			String ret = ping1(lstIps[cont]);
-			System.out.println("Nova func: "+ ret );
-			lstIps[cont]= ret;
+		for(int cont=0; cont<lstIps.size()-1;cont++) {
+			String ret = ping1(lstIps.get(cont));
+			System.out.println(ret);
+			//JOptionPane.showInputDialog(null, "Continuar ? " + " / Tamanho : "+ lstIps.size()+" /Linha: " +cont);
+		//	lstIps.add(cont,ret);
 		/* if(lstIps != null) {	
 				if (doPing(lstIps[cont],timeOut)) {
 					System.out.println(lstIps[cont]+";Ligado");
@@ -66,19 +71,24 @@ public class Ping2 {
 		}
 		
 		if (escreve(lstIps,arqIpsOut)){
-			System.out.println("Salvo em "+ arqIpsOut);
-			//System.out.println("teste da ultima funcao: "+ ping1("www.globo.com"));
+			//System.out.println("Salvo em "+ arqIpsOut);
+			JOptionPane.showMessageDialog(null, "Salvo em "+ arqIpsOut,"Informacao",JOptionPane.INFORMATION_MESSAGE);
+			
 		}else {
-			System.out.println("Deu erro ao salvar!");
+			//System.out.println("Deu erro ao salvar!");
+			JOptionPane.showMessageDialog(null, "Deu erro ao salvar!","Save erro",JOptionPane.INFORMATION_MESSAGE);
+			
 		}
 		 
 		
 	}catch(java.io.FileNotFoundException ef) {
-		System.out.println("o arquivo "+ arqIps +" está vazio ou não existe!");
+		JOptionPane.showMessageDialog(null, "o arquivo "+ arqIps +" está vazio ou não existe!","File não encontrado",JOptionPane.INFORMATION_MESSAGE);
+		//System.out.println("o arquivo "+ arqIps +" está vazio ou não existe!");
 	}
 	
 	catch (Exception e){
-		System.err.println ("Erro geral: "+ e.toString());
+		JOptionPane.showMessageDialog(null, "Erro geral: "+ e.toString(), "Informacao",JOptionPane.INFORMATION_MESSAGE);
+		//System.err.println ("Erro geral: "+ e.toString());
 	}
 	
 	
@@ -94,7 +104,7 @@ public class Ping2 {
 	
 }	
 	
-public static boolean doPing(String host,int timeOut)
+/* public static boolean doPing(String host,int timeOut)
 	{
 		try {	
 		//System.out.println("pegando o nome host: "+ InetAddress.getByName(host));
@@ -106,9 +116,9 @@ public static boolean doPing(String host,int timeOut)
 			System.out.println(e.getMessage());
 		return false;
 		}
-	}
+	}*/
 
-public static boolean escreve(String[] ips, String arquivo) {
+public static boolean escreve(ArrayList<String> ips, String arquivo) {
 	
 	try {	
 		//String arquivo = "outPing.txt";
@@ -116,8 +126,8 @@ public static boolean escreve(String[] ips, String arquivo) {
 		saida.write("Endereco ip;Status;ip");
 		saida.newLine();
 		
-		for (int i=0; i < ips.length; i++ ) {
-			saida.write(ips[i]);
+		for (int i=0; i < ips.size(); i++ ) {
+			saida.write(ips.get(i));
 			saida.newLine();
 			}
 			saida.close();
@@ -130,19 +140,16 @@ public static boolean escreve(String[] ips, String arquivo) {
 }
 
 public static String ping1(String endereco) {
-	
+	String timeOut = "3000";
 		try {
-			Process processo = Runtime.getRuntime().exec("ping -W3000 "+endereco);
+			Process processo = Runtime.getRuntime().exec("ping -W"+timeOut+" "+endereco);
 		
 			InputStream in = processo.getInputStream();
 			BufferedReader entrada = new BufferedReader(new InputStreamReader(in));
-			String linha0,linha1 = null;
-			linha0=null;
-			for (int i=0 ; i<2; i++) {
-				if (i==0) { linha0 = entrada.readLine();}
-				if (i==1) { linha1 = entrada.readLine();}
-		
-			}	
+			String linha0,linha1;
+			linha0 = entrada.readLine();
+			linha1 = entrada.readLine();
+	
 		
 			String ip0 = null;
 			String[] str0 = linha0.split(" ");
@@ -161,13 +168,13 @@ public static String ping1(String endereco) {
 			//	saida.write(endereco+","+ip);
 			//	System.out.println(endereco+";"+ ip);
 				entrada.close();
-				endereco = endereco + ";alcançou;"+ ip;
+				endereco = endereco + ",alcançou,"+ ip;
 			
 			} else {
 		//		saida.write(endereco+", Timeout");
 				//System.out.println(endereco+";Timeout");
 				entrada.close();
-				endereco = endereco +";timeout;"+ip0;
+				endereco = endereco +",timeout,"+ip0;
 			}
 			//saida.close();
 			}
