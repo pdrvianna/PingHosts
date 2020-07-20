@@ -5,8 +5,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -22,6 +20,9 @@ public class Ping2 {
 
 	String arqIps = "ips.txt";
 	String arqIpsOut = "outIps.txt";
+	lerArquivo tela = new lerArquivo();
+
+	
 
 	try {	
 
@@ -49,13 +50,14 @@ public class Ping2 {
 			String ret = ping2(lstIps.get(cont));
 			System.out.println(ret);
 			lstIps.set(cont,ret);
+			tela.listar(ret);
 			
 		}
 		
 		//Escrevendo no arquivo
 		if (escreve(lstIps,arqIpsOut)){
 
-			JOptionPane.showMessageDialog(null, "Salvo em "+ arqIpsOut,"Informacao",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Fim! Arquivo salvo em "+ arqIpsOut,"Informacao",JOptionPane.INFORMATION_MESSAGE);
 			
 		}else {
 
