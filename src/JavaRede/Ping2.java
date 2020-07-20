@@ -9,6 +9,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+
 import javax.swing.JOptionPane;
 
 public class Ping2 {
@@ -25,6 +26,7 @@ public class Ping2 {
 	
 
 	try {	
+		long endTime,timeElapsed, startTime = System.nanoTime();
 
 		BufferedReader ent = new BufferedReader(new FileReader(arqIps)); 
 		
@@ -53,11 +55,21 @@ public class Ping2 {
 			tela.listar(ret);
 			
 		}
+		endTime = System.nanoTime();
+		timeElapsed = endTime - startTime;
+		Double time = (double)timeElapsed / 1_000_000_000.0;
+		Double timeH,timeM,timeS;
+		String te="";
+		if (time > 3600) { timeH = time /3600;timeM = (timeH % 3600) / 60; timeS = ((timeH % 3600) % 60); te = timeH + "h "+timeM+"m "+timeS+"s ";
+		}else if (time > 60 && time <=3600) { timeM = (time / 60); timeS = (timeM % 60); te = timeM+"m "+timeS+"s ";
+		}else if (time < 60) { timeS = time; te = timeS+"s ";}
+		
+		
 		
 		//Escrevendo no arquivo
 		if (escreve(lstIps,arqIpsOut)){
 
-			JOptionPane.showMessageDialog(null, "Fim! Arquivo salvo em "+ arqIpsOut,"Informacao",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Fim! Arquivo salvo em "+ arqIpsOut +"\n"+ "Tempo: "+te,"Informacao",JOptionPane.INFORMATION_MESSAGE);
 			
 		}else {
 
@@ -72,6 +84,7 @@ public class Ping2 {
 	catch (Exception e){
 		JOptionPane.showMessageDialog(null, "Erro geral: "+ e.toString(), "Informacao",JOptionPane.INFORMATION_MESSAGE);
 	}
+	System.exit(0);
 	}	
 
 public static boolean escreve(ArrayList<String> ips, String arquivo) {
@@ -97,7 +110,7 @@ public static String ping2(String endereco) throws UnknownHostException, IOExcep
 	 
 	String status; 
    InetAddress inet = InetAddress.getByName(endereco);
-   if(inet.isReachable(null,64,5000)) {
+   if(inet.isReachable(null,128,5000)) {
    	status = "Reachable";    	
    }else {
    	status = "Timeout";

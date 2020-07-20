@@ -5,5 +5,5 @@ Endereco ip;Status;ip
 www.globo.com,Timeout,186.192.81.5
 128.40.2.1,Timeout,128.40.2.1
 129.0.1.2,Timeout,129.0.1.2
-www.apple.com,Timeout,23.34.169.12
+www.apple.com,Timeout,96.7.183.30
 
